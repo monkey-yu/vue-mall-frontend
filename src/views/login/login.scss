@@ -1,0 +1,48 @@
+@import '../../styles/app.scss';
+
+.login-view{
+    height: 100vh;
+    top: 0;
+    padding: 0;
+    background-color: #2a3a55;
+    text-align: center;
+    overflow: auto;
+    position: relative;
+    .login-content {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .text-control{
+        padding:0;
+      }
+      .label-box {
+        color: #fff;
+        width: 90px;
+      }
+    }
+    .logo-box{
+      font-size: 20px;
+      letter-spacing: 2px;
+      color: #fff;
+      margin-bottom: 30px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content:center;
+    }
+    .bottom-box{
+      margin-top: 10px;
+      padding-left: 20px;
+      .login-button{
+        width: 100px;
+      }
+    }
+}
