@@ -16,6 +16,7 @@ export class UserInfoBusiness extends EntityBaseService {
     const options = new HttpOptions(superClass.restapibase + 'login', null,
       [new HttpHeader('loginName',loginName), new HttpHeader('password',loginPassword)]);
     options.skipValidation = true;
+    // 组装options发给httpRequest服务
     return HttpRequestService.post(options);
   }
 }

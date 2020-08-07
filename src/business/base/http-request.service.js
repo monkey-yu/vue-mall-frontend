@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { BaseInfoService } from '../base-info.service';
-import { SERVERINFO } from '../../constants/server-info';
 import { MockUrl } from './mock-url';
 import router from '../../router';
+import { LocalDataService } from '../../utils';
+import { SERVERINFO } from '../../constants/server-info.ts';
 
 export class HttpRequestService {
   constructor(){
@@ -17,6 +18,7 @@ export class HttpRequestService {
     this._redirected = false;
     return true;
   }
+  // 定义http请求的各种method
   static post(params){
     if(!this.checkClientToken(params)) {
       return ;
@@ -32,6 +34,41 @@ export class HttpRequestService {
     }
     return this.apiAxios('POST',params.url,params);
   }
+  //定义HandleRequest 方法
+  static HandleRequest(params){
+    const user = BaseInfoService.getUser();
+    if(!params.skipValidation && !user){
+      if(window.location.hash.toLowerCase().indexOf('/login') === -1 ){
+        if(window.location.hash.toLowerCase() === '/'){
+          router.push({name:'login'})
+        }else {
+          router.push({name:'login', params:{url : encodeURIComponent(window.location.hash.toLowerCase())}});
+        }
+      }
+      return false;
+    }
+    if (!params.headers){
+      params.headers = [{name:'Content-Type', value:'application/json'}];
+    } else {
+      let hasContentType = false;
+      for (let i = 0; i < params.headers.length; i++) {
+        if (params.headers[i].name === 'Content-Type') {
+          hasContentType = true;
+          break;
+        }
+      }
+      if (!hasContentType) {
+        params.headers.push({ name: 'Content-Type', value: 'application/json' });
+      }
+    }
+    params.headers.push({ name: 'language', value: 'zh-cn' });
+    if (!params.skipValidation) {
+      params.headers.push({ name: 'token', value: user.token });
+    }
+    this._redirected = false;
+    return true;
+  }
+  // 定义apiAxios方法
   static apiAxios(method,url,params){
     let headers = {};
     if(params.headers){
