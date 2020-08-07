@@ -5,7 +5,7 @@ import { UserInfoBusiness } from '../../business';
 export default class Login extends Vue {
   slogan:string = '欢迎登陆后台管理系统';
   username: string ='admin';
-  password:string = '';
+  password:string = 'pass';
   created() {
 
   }
